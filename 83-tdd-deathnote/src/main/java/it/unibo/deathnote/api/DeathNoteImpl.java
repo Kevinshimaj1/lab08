@@ -8,8 +8,7 @@ public class DeathNoteImpl implements DeathNote{
     private final Map<String, Pair> deathNote = new HashMap<>();
     public static final String DFL_CAUSE= "hearth attack";
     private String lastNameWritten;
-    private long timeWrittenName;
-    private long timeWrittenCause;
+    private long timeOfDeath; //when the name has been written 
     
     
     @Override
@@ -23,39 +22,41 @@ public class DeathNoteImpl implements DeathNote{
     @Override
     public void writeName(String name) {
         if(name == null){
-            throw new NullPointerException();
+            throw new NullPointerException("Error");
         }
         this.lastNameWritten = name;
         this.deathNote.put(name, new Pair(DFL_CAUSE, ""));
-        this.timeWrittenName = System.currentTimeMillis();
+        this.timeOfDeath = System.currentTimeMillis();
     }
 
     @Override
     public boolean writeDeathCause(String cause) {
         if(cause == null || deathNote.isEmpty()){
-            throw new IllegalStateException();
+            throw new IllegalStateException("Error");
         }
-        if (System.currentTimeMillis() - this.timeWrittenName > 40){
+        if (System.currentTimeMillis() - this.timeOfDeath > 40){
             return false;
         }
-        return this.deathNote.get(this.lastNameWritten).setCause(cause);
+        this.deathNote.get(this.lastNameWritten).setCause(cause);
+        return true;
     }
 
     @Override
     public boolean writeDetails(String details) {
         if(details == null || deathNote.isEmpty()){
-            throw new IllegalStateException();
+            throw new IllegalStateException("Error");
         }
-        if(System.currentTimeMillis() - this.timeWrittenCause > 6040){
+        if(System.currentTimeMillis() - this.timeOfDeath > 6040){
             return false;
         }
-        return this.deathNote.get(this.lastNameWritten).setDetails(details);
+        this.deathNote.get(this.lastNameWritten).setDetails(details);
+        return true;
     }
 
     @Override
     public String getDeathCause(String name) {
         if (this.deathNote.get(name) == null){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error");
         }
         return this.deathNote.get(name).getCause();
     }
@@ -63,9 +64,9 @@ public class DeathNoteImpl implements DeathNote{
     @Override
     public String getDeathDetails(String name) {
         if(this.deathNote.get(name) == null){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error");
         }
-        throw new IllegalArgumentException("The provided name is not written in this DeathNote");
+       return this.deathNote.get(name).getDetails();
     }
 
     @Override

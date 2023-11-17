@@ -19,19 +19,11 @@ public class Pair{
         return this.details;
     }
 
-    public boolean setCause(String cause){
-        if(this.cause != DeathNoteImpl.DFL_CAUSE){
-            return false;
-        }
+    public void setCause(String cause){
         this.cause = cause;
-        return true;
     }
 
-    public boolean setDetails(String details){
-        if(!this.cause.isBlank()){
-            return false;
-        }
+    public void setDetails(String details){
         this.details = details;
-        return true;
     }
 }

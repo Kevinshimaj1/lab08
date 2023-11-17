@@ -60,12 +60,12 @@ class TestDeathNote {
             deathNote.writeDeathCause(cause);
             deathNote.writeName(name);
             Assertions.fail("writing a cause of death before writing a name didn't thrown an exception");
-        } catch(IllegalArgumentException e){
+        } catch(IllegalStateException e){
             assertNotNull(e.getMessage());
             assertFalse(e.getMessage().isBlank());
         }
         final String name = "SurrealPower";
-        deathNote.writeDeathCause(name);
+        deathNote.writeName(name);
         assertEquals("hearth attack", deathNote.getDeathCause(name));
         deathNote.writeName("Gianluca");
         assertTrue(deathNote.writeDeathCause("karting accident"));
@@ -91,7 +91,7 @@ class TestDeathNote {
         deathNote.writeName("Mattia");
         sleep(6100L);
         deathNote.writeDetails("car accident");
-        assertEquals("car accident",deathNote.getDeathDetails("Mattia"));
+        assertTrue(deathNote.getDeathDetails("Mattia").isBlank());
     }
 
     
